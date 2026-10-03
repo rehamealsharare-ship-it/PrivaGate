@@ -1,1 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivaGate - منصة التشفير الآمن</title>
+    <style>
+        :root {
+            --bg-dark: #0b1325;
+            --card-bg: rgba(22, 33, 62, 0.7);
+            --accent-blue: #00b4d8;
+            --accent-green: #2ec4b6;
+            --text-main: #f8f9fa;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 180, 216, 0.1);
+            color: var(--accent-blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 180, 216, 0.2);
+        }
+
+        .header h2 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            color: var(--text-main);
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .btn-action {
+            width: 100%;
+            background: var(--accent-blue);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .btn-action:active {
+            transform: scale(0.98);
+        }
+
+        .result-box {
+            margin-top: 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px dashed var(--accent-blue);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 14px;
+            min-height: 50px;
+            display: none;
+            word-break: break-word;
+        }
+
+        .masked-tag {
+            background: rgba(0, 180, 216, 0.2);
+            color: var(--accent-blue);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- الهيدر المعدل بدون أيقونة وبعنوان منصة التشفير الآمن -->
+        <div class="header">
+            <span class="badge">PrivaGate v1.0 • Client-Side Shield</span>
+            <h2>منصة التشفير الآمن</h2>
+            <p class="subtitle">تصفية البيانات الحساسة تلقائياً قبل وصولها للـ AI</p>
+        </div>
+
+        <div class="card">
+            <!-- الإحصائيات -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number" id="email-count">0</div>
+                    <div class="stat-label">إيميلات محمية</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="phone-count">0</div>
+                    <div class="stat-label">أرقام محمية</div>
+                </div>
+            </div>
+
+            <!-- مربع إدخال النص مع العنوان -->
+            <div class="input-group">
+                <label class="input-label">✍️ النص المراد فحصه وإرساله:</label>
+                <textarea id="user-input" placeholder="اكتب نصاً يحتوي على إيميل أو رقم هاتف لتجربة التشفير المباشر..."></textarea>
+            </div>
+
+            <button class="btn-action" onclick="processText()">معالجة وإرسال آمن ←</button>
+
+            <!-- صندوق النتيجة -->
+            <div class="result-box" id="result-box"></div>
+        </div>
+    </div>
+
+    <script>
+        function processText() {
+            let inputField = document.getElementById("user-input");
+            let rawText = inputField.value;
+            let resultBox = document.getElementById("result-box");
+
+            if (!rawText.trim()) return;
+
+            let emailCount = 0;
+            let phoneCount = 0;
+
+            const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+            const phoneRegex = /(05\d{8}|\+\d{11,12}|\d{9,12})/g;
+
+            let cleanText = rawText
+                .replace(emailRegex, () => {
+                    emailCount++;
+                    return `<span class="masked-tag">[EMAIL_PROTECTED]</span>`;
+                })
+                .replace(phoneRegex, () => {
+                    phoneCount++;
+                    return `<span class="masked-tag">[PHONE_PROTECTED]</span>`;
+                });
+
+            document.getElementById("email-count").innerText = emailCount;
+            document.getElementById("phone-count").innerText = phoneCount;
+
+            resultBox.innerHTML = cleanText;
+            resultBox.style.display = "block";
+        }
+    </script>
+</body>
+</html>
+⁠⁠
